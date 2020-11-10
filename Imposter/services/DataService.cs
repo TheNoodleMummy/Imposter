@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Imposter
@@ -30,20 +31,34 @@ namespace Imposter
 
         private void ImposterQueens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            LogService.LogInformation($"Queens changed {e.Action} replaced items {e.NewItems}", LogSource.DataService);
+
+            LogService.LogCritical($"Queens changed {e.Action}", LogSource.DataService);
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Replace)
             {
-                LogService.LogDebug($"saveing queens", LogSource.DataService);
+                var sb = new StringBuilder();
+                foreach (var item in e.NewItems)
+                {
+                    sb.AppendLine($"{((ValueTuple<ulong, int>)item).Item1},{((ValueTuple<ulong, int>)item).Item2}");
+                }
+                LogService.LogCritical($"replaced {sb}", LogSource.DataService);
+                LogService.LogCritical($"saveing queens", LogSource.DataService);
                 File.WriteAllText(Queensjson, JsonConvert.SerializeObject(ImposterQueens));
             }
         }
 
         private void Imposterkings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            LogService.LogInformation($"Kings changed {e.Action} replaced items {e.NewItems}", LogSource.DataService);
+            
+            LogService.LogCritical($"Kings changed {e.Action}", LogSource.DataService);
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Replace)
             {
-                LogService.LogDebug($"saveing kings", LogSource.DataService);
+                var sb = new StringBuilder();
+                foreach (var item in e.NewItems)
+                {
+                    sb.AppendLine($"{((ValueTuple<ulong, int>)item).Item1},{((ValueTuple<ulong, int>)item).Item2}");
+                }
+                LogService.LogCritical($"replaced {sb}", LogSource.DataService);
+                LogService.LogCritical($"saveing kings", LogSource.DataService);
                 File.WriteAllText(Kingsjson, JsonConvert.SerializeObject(ImposterKings));
             }
 

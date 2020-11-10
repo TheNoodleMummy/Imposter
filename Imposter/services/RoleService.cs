@@ -117,7 +117,7 @@ namespace Imposter.services
         {
             try
             {
-                LogService.LogDebug("Update has been requested", LogSource.RoleService);
+                LogService.LogInformation("Update has been requested", LogSource.RoleService);
                 var data = Services.GetRequiredService<DataService>();
                 var guild = Client.GetGuild(759143648339558412);
                 var KingR = guild.GetRole(KingId);
@@ -129,7 +129,7 @@ namespace Imposter.services
                 {
                     LogService.LogInformation($"{CurrentKing} has been outranked.=> decrowning", LogSource.RoleService, guild.Id);
                     if (CurrentKing != null)
-                        await CurrentKing.RevokeRoleAsync(KingR.Id);
+                        await CurrentKing.RevokeRoleAsync(KingId);
                     CurrentKing = guild.GetMember(tmpking.id);
                     await CurrentKing.GrantRoleAsync(KingId);
                     LogService.LogInformation($"{CurrentKing} has crowned king", LogSource.RoleService, guild.Id);
@@ -139,7 +139,7 @@ namespace Imposter.services
                 {
                     LogService.LogInformation($"{CurrentQueen} has been outranked.=> decrowning", LogSource.RoleService, guild.Id);
                     if (CurrentQueen != null)
-                        await CurrentQueen.RevokeRoleAsync(QueenR.Id);
+                        await CurrentQueen.RevokeRoleAsync(QueenId);
                     CurrentQueen = guild.GetMember(tmpqueen.id);
                     await CurrentQueen.GrantRoleAsync(QueenId);
                     LogService.LogInformation($"{CurrentQueen} has crowned queen", LogSource.RoleService, guild.Id);
