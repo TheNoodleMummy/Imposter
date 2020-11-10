@@ -30,9 +30,6 @@ namespace Imposter
             var types = assembly?.GetTypes()
                 .Where(x => typeof(BaseService).IsAssignableFrom(x) && !x.IsAbstract).ToArray();
 
-
-
-
             var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
             var services = new ServiceCollection()
                 .AddServices(types)
@@ -45,7 +42,6 @@ namespace Imposter
                  //    LogLevel = LogSeverity.Info,
                  //    MessageCacheSize = 100
                  //}))
-
 
                  .AddSingleton(new DiscordClient(TokenType.Bot, config.Token, new DiscordClientConfiguration()
                  {

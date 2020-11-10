@@ -15,7 +15,6 @@ namespace Imposter.services
 {
     public class RoleService : BaseService
     {
-        //759199236545577021
         public DiscordClient Client { get; set; }
         public LogService LogService { get; set; }
         public Timer Timer { get; set; }
@@ -26,7 +25,6 @@ namespace Imposter.services
         private CachedMember CurrentKing, CurrentQueen;
         private readonly ulong KingId = 764921111750115360;
         private readonly ulong QueenId = 764921076919959583;
-        internal bool IsReady = false;
 
         public override Task InitialiseAsync(IServiceProvider services)
         {
@@ -47,7 +45,6 @@ namespace Imposter.services
 
             CurrentQueen = Client.GetGuild(759143648339558412).GetRole(QueenId).Members.FirstOrDefault().Value;
             CurrentKing = Client.GetGuild(759143648339558412).GetRole(KingId).Members.FirstOrDefault().Value;
-            IsReady = true;
             return base.InitialiseAsync(services);
         }
 
@@ -96,12 +93,13 @@ namespace Imposter.services
                         count++;
                         data.ImposterKings.Add((id, count));
                     }
+                    
                     if (data.ImposterQueens.Any(x => x.id == choosenuser.Key))
                     {
-                        var (id, count) = data.ImposterQueens.FirstOrDefault(x => x.id == choosenuser.Key);
-                        data.ImposterQueens.Remove((id, count));
-                        count++;
-                        data.ImposterQueens.Add((id, count));
+                        var (id2, count2) = data.ImposterQueens.FirstOrDefault(x => x.id == choosenuser.Key);
+                        data.ImposterQueens.Remove((id2, count2));
+                        count2++;
+                        data.ImposterQueens.Add((id2, count2));
                     }
                     currentnewimposters.Add(choosenuser.Key);
                     await choosenuser.Value.GrantRoleAsync(role.Id);
@@ -110,7 +108,7 @@ namespace Imposter.services
             }
             catch (Exception e)
             {
-                LogService.LogCritical("something went wrong...", LogSource.RoleService, guild.Id, e);
+                LogService.LogError("something went wrong...", LogSource.RoleService, guild.Id, e);
             }
 
         }
@@ -133,7 +131,7 @@ namespace Imposter.services
                     if (CurrentKing != null)
                         await CurrentKing.RevokeRoleAsync(KingR.Id);
                     CurrentKing = guild.GetMember(tmpking.id);
-                    await CurrentKing.GrantRoleAsync(KingR.Id);
+                    await CurrentKing.GrantRoleAsync(KingId);
                     LogService.LogInformation($"{CurrentKing} has crowned king", LogSource.RoleService, guild.Id);
                 }
 
@@ -143,7 +141,7 @@ namespace Imposter.services
                     if (CurrentQueen != null)
                         await CurrentQueen.RevokeRoleAsync(QueenR.Id);
                     CurrentQueen = guild.GetMember(tmpqueen.id);
-                    await CurrentQueen.GrantRoleAsync(QueenR.Id);
+                    await CurrentQueen.GrantRoleAsync(QueenId);
                     LogService.LogInformation($"{CurrentQueen} has crowned queen", LogSource.RoleService, guild.Id);
                 }
             }

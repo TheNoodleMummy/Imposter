@@ -30,7 +30,7 @@ namespace Imposter
 
         private void ImposterQueens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            LogService.LogDebug($"Queens changed {e.Action}", LogSource.DataService);
+            LogService.LogInformation($"Queens changed {e.Action} replaced items {e.NewItems}", LogSource.DataService);
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Replace)
             {
                 LogService.LogDebug($"saveing queens", LogSource.DataService);
@@ -40,7 +40,7 @@ namespace Imposter
 
         private void Imposterkings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            LogService.LogDebug($"Kings changed {e.Action}", LogSource.DataService);
+            LogService.LogInformation($"Kings changed {e.Action} replaced items {e.NewItems}", LogSource.DataService);
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Replace)
             {
                 LogService.LogDebug($"saveing kings", LogSource.DataService);
