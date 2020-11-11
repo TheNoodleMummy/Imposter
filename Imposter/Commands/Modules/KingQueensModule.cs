@@ -25,7 +25,7 @@ namespace Imposter.Commands.Modules
             foreach (var (id, count) in order)
             {
                 var user = Context.Guild.GetMember(id);
-                sb.AppendLine($"{user.Nick ?? user.Name} has betrayed trust: {count} times{(Data.WhitelistedIds.Any(x => x == user.Id) ? "" : "user is not whitelisted as imposter")}");
+                sb.AppendLine($"{user.Nick ?? user.Name} {(Data.WhitelistedIds.Any(x => x == user.Id) ? $"has betrayed trust: {count} times" : "user is not whitelisted as imposter")}");
             }
             eb.WithDescription(sb.ToString());
             await ReplyAsync("", eb, LocalMentions.None);
@@ -41,7 +41,7 @@ namespace Imposter.Commands.Modules
             foreach (var (id, count) in order)
             {
                 var user = Context.Guild.GetMember(id);
-                sb.AppendLine($"{user.DisplayName} has betrayed trust: {count} times {(Data.WhitelistedIds.Any(x => x == user.Id) ? "" : "user is not whitelisted as imposter")}");
+                sb.AppendLine($"{user.DisplayName}  {(Data.WhitelistedIds.Any(x => x == user.Id) ? $"has betrayed trust: {count} times" : "user is not whitelisted as imposter")}");
             }
             eb.WithDescription(sb.ToString());
             await ReplyAsync("", eb, LocalMentions.None);
@@ -50,7 +50,7 @@ namespace Imposter.Commands.Modules
         [Command("all")]
         public async Task Top()
         {
-            var list = Data.ImposterKings;
+            var list = Data.ImposterKings.ToList();
             foreach (var queen in Data.ImposterQueens)
             {
                 list.Add(queen);
@@ -63,7 +63,7 @@ namespace Imposter.Commands.Modules
             foreach (var (id, count) in order)
             {
                 var user = Context.Guild.GetMember(id);
-                sb.AppendLine($"{user.DisplayName} has betrayed trust: {count} times {(Data.WhitelistedIds.Any(x => x == user.Id) ? "" : "user is not whitelisted as imposter")}");
+                sb.AppendLine($"{user.DisplayName} {(Data.WhitelistedIds.Any(x => x == user.Id) ? $"has betrayed trust: {count} times " : "user is not whitelisted as imposter")}");
             }
             eb.WithDescription(sb.ToString());
             await ReplyAsync("", eb, LocalMentions.None);
@@ -81,14 +81,14 @@ namespace Imposter.Commands.Modules
             foreach (var (id, count) in kingorder)
             {
                 var user = Context.Guild.GetMember(id);
-                sb.AppendLine($"{user.DisplayName} has betrayed trust: {count} times {(Data.WhitelistedIds.Any(x => x == user.Id) ? "" : "user is not whitelisted as imposter")}");
+                sb.AppendLine($"{user.DisplayName}  {(Data.WhitelistedIds.Any(x => x == user.Id) ? $"has betrayed trust: {count} times " : "user is not whitelisted as imposter")}");
             }
             eb.AddField("Top Kings", sb.ToString(), true);
             sb.Clear();
             foreach (var (id, count) in queensorder)
             {
                 var user = Context.Guild.GetMember(id);
-                sb.AppendLine($"{user.DisplayName} has betrayed trust: {count} times {(Data.WhitelistedIds.Any(x => x == user.Id) ? "" : "user is not whitelisted as imposter")}");
+                sb.AppendLine($"{user.DisplayName}  {(Data.WhitelistedIds.Any(x => x == user.Id) ? $"has betrayed trust: {count} times " : "user is not whitelisted as imposter")}");
             }
             eb.AddField("Top Queens", sb.ToString(), true);
             await ReplyAsync("", eb, LocalMentions.None);
