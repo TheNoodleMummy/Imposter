@@ -26,4 +26,7 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - uses: actions/download-artifact@v2.0.5
-
+      with:
+        name: "impost.dll"  
+        path: "D:\\a\\Imposter\\Imposter\\Imposter\\bin\\Release\\netcoreapp3.1\\Imposter.dll"
+    
